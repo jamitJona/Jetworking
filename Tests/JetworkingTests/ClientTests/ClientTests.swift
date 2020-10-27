@@ -20,13 +20,12 @@ final class ClientTests: XCTestCase {
         client.get(endpoint: Endpoints.get.addQueryParameter(key: "SomeKey", value: "SomeValue")) { response, result in
 
             dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
-
             switch result {
             case .failure:
                 break
 
             case let .success(resultData):
-                print(resultData)
+                XCTAssertEqual(MockBody(foo1: "SomeFoo", foo2: "AnotherFoo"), resultData)
             }
 
             XCTAssertNotNil(response)
@@ -345,7 +344,7 @@ final class ClientTests: XCTestCase {
 extension ClientTests {
     func makeDefaultClientConfiguration() -> Configuration {
         return .init(
-            baseURL: URL(string: "https://postman-echo.com")!,
+            baseURL: URL(string: "https://www.jamitlabs.com")!,
             interceptors: [
                 AuthenticationRequestInterceptor(
                     authenticationMethod: .basicAuthentication(username: "username", password: "password")
@@ -355,7 +354,7 @@ extension ClientTests {
             ],
             encoder: JSONEncoder(),
             decoder: JSONDecoder(),
-            requestExecutorType: .async
+            requestExecutorType: .custom(MockExecuter.self)
         )
     }
 }
