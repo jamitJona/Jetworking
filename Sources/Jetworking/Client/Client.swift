@@ -232,7 +232,7 @@ public final class Client {
             enqueue(completion(currentURLResponse, .success(decodedData)))
             
         case .clientError, .serverError:
-            guard let error = error else { return completion(currentURLResponse, .failure(APIError.unexpectedError)) }
+            guard let error = error else { return enqueue(completion(currentURLResponse, .failure(APIError.unexpectedError))) }
 
             enqueue(completion(currentURLResponse, .failure(error)))
 
