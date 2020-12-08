@@ -168,8 +168,6 @@ final class ClientTests: XCTestCase {
                 HeaderFieldsRequestInterceptor(headerFields: self.additionalHeaderFields()),
                 LoggingInterceptor()
             ],
-            encoder: JSONEncoder(),
-            decoder: JSONDecoder(),
             requestExecutorType: .sync
         ))
 
@@ -353,8 +351,6 @@ extension ClientTests {
                 HeaderFieldsRequestInterceptor(headerFields: self.additionalHeaderFields()),
                 LoggingInterceptor()
             ],
-            encoder: JSONEncoder(),
-            decoder: JSONDecoder(),
             requestExecutorType: .async
         )
     }

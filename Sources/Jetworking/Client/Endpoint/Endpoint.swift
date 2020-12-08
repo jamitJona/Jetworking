@@ -3,6 +3,8 @@ import Foundation
 public struct Endpoint<ResponseType: Decodable> {
     var pathComponents: [String]
     var queryParameters: [String: String?] = [:]
+    var encoding: Encoding = .json
+    var decoding: Decoding = .json
 
     /**
      * Initialises an endpoint with the given path component.

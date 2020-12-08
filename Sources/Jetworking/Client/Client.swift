@@ -112,7 +112,7 @@ public final class Client {
     @discardableResult
     public func post<BodyType: Encodable, ResponseType>(endpoint: Endpoint<ResponseType>, body: BodyType, _ completion: @escaping RequestCompletion<ResponseType>) -> CancellableRequest? {
         do {
-            let bodyData: Data = try configuration.encoder.encode(body)
+            let bodyData: Data = try endpoint.encoding.encode(body)
             let request: URLRequest = try createRequest(forHttpMethod: .POST, and: endpoint, and: bodyData)
             return requestExecutor.send(request: request) { [weak self] data, urlResponse, error in
                 self?.handleResponse(
@@ -133,7 +133,7 @@ public final class Client {
     @discardableResult
     public func put<BodyType: Encodable, ResponseType>(endpoint: Endpoint<ResponseType>, body: BodyType, _ completion: @escaping RequestCompletion<ResponseType>) -> CancellableRequest? {
         do {
-            let bodyData: Data = try configuration.encoder.encode(body)
+            let bodyData: Data = try endpoint.encoding.encode(body)
             let request: URLRequest = try createRequest(forHttpMethod: .PUT, and: endpoint, and: bodyData)
             return requestExecutor.send(request: request) { [weak self] data, urlResponse, error in
                 self?.handleResponse(
@@ -158,7 +158,7 @@ public final class Client {
         _ completion: @escaping RequestCompletion<ResponseType>
     ) -> CancellableRequest? {
         do {
-            let bodyData: Data = try configuration.encoder.encode(body)
+            let bodyData: Data = try endpoint.encoding.encode(body)
             let request: URLRequest = try createRequest(forHttpMethod: .PATCH, and: endpoint, and: bodyData)
             return requestExecutor.send(request: request) { [weak self] data, urlResponse, error in
                 self?.handleResponse(
@@ -312,7 +312,7 @@ public final class Client {
         case .successful:
             guard
                 let data = data,
-                let decodedData = try? configuration.decoder.decode(ResponseType.self, from: data)
+                let decodedData = try? endpoint.decoding.decode(ResponseType.self, from: data)
             else {
                 return enqueue(completion(currentURLResponse, .failure(APIError.decodingError)))
             }
