@@ -4,8 +4,8 @@ import Foundation
 public struct Configuration {
     let baseURL: URL
     let interceptors: [Interceptor]
-    let encoder: JSONEncoder
-    let decoder: JSONDecoder
+    let encoding: Encoding
+    let decoding: Decoding
     let requestExecutorType: RequestExecutorType
     let downloadExecutorType: DownloadExecutorType
     let uploadExecutorType: UploadExecutorType
@@ -35,8 +35,8 @@ public struct Configuration {
     public init(
         baseURL: URL,
         interceptors: [Interceptor],
-        encoder: JSONEncoder,
-        decoder: JSONDecoder,
+        encoding: Encoding,
+        decoding: Decoding,
         requestExecutorType: RequestExecutorType = .async,
         downloadExecutorType: DownloadExecutorType = .default,
         uploadExecutorType: UploadExecutorType = .default,
@@ -44,8 +44,8 @@ public struct Configuration {
     ) {
         self.baseURL = baseURL
         self.interceptors = interceptors
-        self.encoder = encoder
-        self.decoder = decoder
+        self.encoding = encoding
+        self.decoding = decoding
         self.requestExecutorType = requestExecutorType
         self.downloadExecutorType = downloadExecutorType
         self.uploadExecutorType = uploadExecutorType
